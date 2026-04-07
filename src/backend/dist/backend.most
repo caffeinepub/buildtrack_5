@@ -1,0 +1,247 @@
+// Version: 1.0.0
+type AlertId__758494499 = Nat;
+type AlertSeverity__611659183 = {#Critical; #Info; #Warning};
+type AlertType__1022437099 = {#BudgetOverrun; #LowInventory; #PendingInvoice};
+type Alert__607610635 =
+  {
+    var acknowledgedAt : ?Timestamp__301639476;
+    var acknowledgedBy : ?UserId__158757552;
+    alertType : AlertType__1022437099;
+    createdAt : Timestamp__301639476;
+    id : AlertId__758494499;
+    var isAcknowledged : Bool;
+    message : Text;
+    projectId : ProjectId__478417951;
+    relatedEntityId : Nat;
+    severity : AlertSeverity__611659183
+  };
+type BudgetCategory__634104974 =
+  {#Equipment; #Labor; #Materials; #Other; #Overhead};
+type BudgetId__920235651 = Nat;
+type Budget__169032319 =
+  {
+    var allocatedAmount : Float;
+    var category : BudgetCategory__634104974;
+    createdAt : Timestamp__301639476;
+    id : BudgetId__920235651;
+    var notes : ?Text;
+    projectId : ProjectId__478417951;
+    var spentAmount : Float;
+    var updatedAt : Timestamp__301639476
+  };
+type DeliveryStatus__252082474 =
+  {#Cancelled; #Delivered; #InTransit; #Pending};
+type Delivery__167760367 =
+  {
+    var actualDate : ?Timestamp__301639476;
+    createdAt : Timestamp__301639476;
+    var expectedDate : Timestamp__301639476;
+    id : Nat;
+    var notes : ?Text;
+    projectId : ProjectId__478417951;
+    var status : DeliveryStatus__252082474;
+    supplierId : SupplierId__1029492484;
+    var updatedAt : Timestamp__301639476
+  };
+type InventoryTransaction__513166684 =
+  {
+    createdAt : Timestamp__301639476;
+    id : TransactionId__138870153;
+    invoiceId : ?InvoiceId__909937669;
+    materialId : MaterialId__538543334;
+    notes : ?Text;
+    phaseId : ?PhaseId__400956601;
+    projectId : ProjectId__478417951;
+    qrCode : ?Text;
+    quantity : Float;
+    recordedBy : UserId__158757552;
+    supplierId : ?SupplierId__1029492484;
+    totalCost : Float;
+    transactionDate : Timestamp__301639476;
+    transactionType : TransactionType__922936186;
+    unitCost : Float
+  };
+type InvoiceId__909937669 = Nat;
+type InvoiceLineItem__360570809 =
+  {
+    description : Text;
+    materialId : ?MaterialId__538543334;
+    quantity : Float;
+    totalCost : Float;
+    unitCost : Float
+  };
+type InvoiceStatus__690311102 = {#Cancelled; #Draft; #Paid; #Pending};
+type InvoiceType__802184533 = {#Manual; #SupplierDelivery};
+type Invoice__447005592 =
+  {
+    createdAt : Timestamp__301639476;
+    createdBy : UserId__158757552;
+    var dueDate : ?Timestamp__301639476;
+    id : InvoiceId__909937669;
+    invoiceType : InvoiceType__802184533;
+    var lineItems : [InvoiceLineItem__360570809];
+    var notes : ?Text;
+    var paidAt : ?Timestamp__301639476;
+    projectId : ProjectId__478417951;
+    var status : InvoiceStatus__690311102;
+    supplierId : ?SupplierId__1029492484;
+    var totalAmount : Float;
+    var updatedAt : Timestamp__301639476
+  };
+type MaterialCategory__421079110 =
+  {
+    #Aggregate;
+    #Bricks;
+    #Cement;
+    #Electrical;
+    #Other;
+    #Paint;
+    #Plumbing;
+    #Sand;
+    #Steel;
+    #Wood
+  };
+type MaterialId__538543334 = Nat;
+type Material__825173041 =
+  {
+    var category : MaterialCategory__421079110;
+    createdAt : Timestamp__301639476;
+    var currentStock : Float;
+    id : MaterialId__538543334;
+    var name : Text;
+    projectId : ProjectId__478417951;
+    var reorderThreshold : Float;
+    var unit : Text;
+    var updatedAt : Timestamp__301639476
+  };
+type Nat__490723111 = Nat__920180692;
+type Nat__920180692 = Nat;
+type PhaseId__400956601 = Nat;
+type PhaseStatus__782332881 = {#Completed; #InProgress; #Planned};
+type Phase__510315452 =
+  {
+    var budgetAllocation : Float;
+    createdAt : Timestamp__301639476;
+    var description : Text;
+    var endDate : ?Timestamp__301639476;
+    id : PhaseId__400956601;
+    var name : Text;
+    projectId : ProjectId__478417951;
+    var startDate : ?Timestamp__301639476;
+    var status : PhaseStatus__782332881
+  };
+type ProjectId__478417951 = Nat;
+type ProjectStatus__886440159 = {#Active; #Completed; #Inactive};
+type Project__614212307 =
+  {
+    createdAt : Timestamp__301639476;
+    createdBy : UserId__158757552;
+    var description : Text;
+    id : ProjectId__478417951;
+    var name : Text;
+    var siteLocation : Text;
+    var status : ProjectStatus__886440159;
+    var totalBudget : Float;
+    var updatedAt : Timestamp__301639476
+  };
+type Role__300349085 =
+  {#Admin; #FinanceProcurement; #ProjectManager; #SiteEngineer};
+type SupplierId__1029492484 = Nat;
+type Supplier__775988836 =
+  {
+    var address : Text;
+    var contactPerson : Text;
+    createdAt : Timestamp__301639476;
+    var email : Text;
+    id : SupplierId__1029492484;
+    var isActive : Bool;
+    var materialCategories : [MaterialCategory__421079110];
+    var name : Text;
+    var phone : Text;
+    var updatedAt : Timestamp__301639476
+  };
+type Timestamp__301639476 = Int;
+type TransactionId__138870153 = Nat;
+type TransactionType__922936186 = {#Inflow; #Outflow};
+type UserId__158757552 = Principal;
+type User__455962502 =
+  {
+    createdAt : Timestamp__301639476;
+    var email : Text;
+    id : UserId__158757552;
+    var isActive : Bool;
+    var name : Text;
+    var role : Role__300349085
+  };
+actor {
+  stable alerts :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Alert__607610635]];
+      var elementIndex : Nat__490723111
+    };
+  stable budgets :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Budget__169032319]];
+      var elementIndex : Nat__490723111
+    };
+  stable deliveries :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Delivery__167760367]];
+      var elementIndex : Nat__490723111
+    };
+  stable invoices :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Invoice__447005592]];
+      var elementIndex : Nat__490723111
+    };
+  stable materials :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Material__825173041]];
+      var elementIndex : Nat__490723111
+    };
+  stable var nextAlertId : Nat;
+  stable var nextBudgetId : Nat;
+  stable var nextDeliveryId : Nat;
+  stable var nextInvoiceId : Nat;
+  stable var nextMaterialId : Nat;
+  stable var nextPhaseId : Nat;
+  stable var nextProjectId : Nat;
+  stable var nextSupplierId : Nat;
+  stable var nextTransactionId : Nat;
+  stable var nextUserId : Nat;
+  stable phases :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Phase__510315452]];
+      var elementIndex : Nat__490723111
+    };
+  stable projects :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Project__614212307]];
+      var elementIndex : Nat__490723111
+    };
+  stable suppliers :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Supplier__775988836]];
+      var elementIndex : Nat__490723111
+    };
+  stable transactions :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?InventoryTransaction__513166684]];
+      var elementIndex : Nat__490723111
+    };
+  stable users :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?User__455962502]];
+      var elementIndex : Nat__490723111
+    }
+};

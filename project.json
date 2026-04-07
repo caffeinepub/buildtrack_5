@@ -1,0 +1,23 @@
+{
+  "overview": "BuildTrack is a real-time construction management platform that helps companies track materials, manage budgets, and generate invoices across multiple sites. Project managers, site engineers, and finance teams all get role-appropriate dashboards with live inventory levels, budget vs actual spending, and automated invoice generation.",
+  "features": [
+    "Multi-project and multi-site dashboard",
+    "Real-time inventory tracking with QR code scanning",
+    "Material inflow/outflow logging",
+    "Budget vs actual spending analytics",
+    "Automated invoice generation from deliveries",
+    "Supplier and procurement management",
+    "Role-based access for managers, engineers, and finance teams",
+    "Alerts for low inventory and budget overruns"
+  ],
+  "category": "productivity",
+  "tags": [
+    "construction",
+    "inventory",
+    "finance",
+    "invoicing",
+    "project-management",
+    "real-time"
+  ],
+  "last_updated": "2026-04-07T17:55:42.805Z"
+}

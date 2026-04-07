@@ -1,0 +1,180 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-display: "General Sans", sans-serif;
+    --font-body: "Inter", sans-serif;
+    --font-mono: "JetBrains Mono", monospace;
+    --radius: 0rem; /* zero-rounded: industrial precision */
+
+    /* Neutral base — light slate */
+    --background: 0.975 0 0;
+    --foreground: 0.12 0.005 262;
+    --card: 1 0 0;
+    --card-foreground: 0.12 0.005 262;
+    --popover: 1 0 0;
+    --popover-foreground: 0.12 0.005 262;
+
+    /* Primary: teal for live data */
+    --primary: 0.52 0.16 185;
+    --primary-foreground: 1 0 0;
+
+    /* Secondary: muted teal hint */
+    --secondary: 0.92 0.03 185;
+    --secondary-foreground: 0.15 0.01 185;
+
+    --muted: 0.94 0.004 262;
+    --muted-foreground: 0.48 0.01 262;
+
+    /* Accent: warm orange for alerts */
+    --accent: 0.64 0.19 46;
+    --accent-foreground: 1 0 0;
+
+    --destructive: 0.56 0.22 25;
+    --destructive-foreground: 1 0 0;
+
+    --border: 0.9 0.006 262;
+    --input: 0.93 0.004 262;
+    --ring: 0.52 0.16 185;
+
+    /* Chart: teal + orange spectrum */
+    --chart-1: 0.52 0.16 185;
+    --chart-2: 0.64 0.19 46;
+    --chart-3: 0.68 0.15 148;
+    --chart-4: 0.62 0.12 260;
+    --chart-5: 0.72 0.1 95;
+
+    /* Sidebar: slightly darker card */
+    --sidebar: 0.97 0.004 262;
+    --sidebar-foreground: 0.12 0.005 262;
+    --sidebar-primary: 0.52 0.16 185;
+    --sidebar-primary-foreground: 1 0 0;
+    --sidebar-accent: 0.92 0.03 185;
+    --sidebar-accent-foreground: 0.15 0.01 185;
+    --sidebar-border: 0.9 0.006 262;
+    --sidebar-ring: 0.52 0.16 185;
+  }
+
+  .dark {
+    --background: 0.11 0.006 262;
+    --foreground: 0.94 0 0;
+    --card: 0.14 0.006 262;
+    --card-foreground: 0.94 0 0;
+    --popover: 0.17 0.006 262;
+    --popover-foreground: 0.94 0 0;
+
+    --primary: 0.66 0.16 185;
+    --primary-foreground: 0.08 0 0;
+
+    --secondary: 0.22 0.06 185;
+    --secondary-foreground: 0.84 0.02 185;
+
+    --muted: 0.2 0.006 262;
+    --muted-foreground: 0.56 0.01 262;
+
+    --accent: 0.7 0.18 46;
+    --accent-foreground: 0.08 0 0;
+
+    --destructive: 0.62 0.2 25;
+    --destructive-foreground: 0.96 0 0;
+
+    --border: 0.24 0.006 262;
+    --input: 0.22 0.006 262;
+    --ring: 0.66 0.16 185;
+
+    --chart-1: 0.66 0.16 185;
+    --chart-2: 0.7 0.18 46;
+    --chart-3: 0.74 0.14 148;
+    --chart-4: 0.68 0.11 260;
+    --chart-5: 0.78 0.09 95;
+
+    --sidebar: 0.13 0.006 262;
+    --sidebar-foreground: 0.94 0 0;
+    --sidebar-primary: 0.66 0.16 185;
+    --sidebar-primary-foreground: 0.08 0 0;
+    --sidebar-accent: 0.22 0.06 185;
+    --sidebar-accent-foreground: 0.84 0.02 185;
+    --sidebar-border: 0.22 0.006 262;
+    --sidebar-ring: 0.66 0.16 185;
+  }
+
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+  }
+  html {
+    color-scheme: light;
+  }
+  html.dark {
+    color-scheme: dark;
+  }
+}
+
+@font-face {
+  font-family: "General Sans";
+  src: url("/assets/fonts/GeneralSans.woff2") format("woff2");
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/assets/fonts/JetBrainsMono.woff2") format("woff2");
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@layer utilities {
+  /* Smooth transition */
+  .transition-smooth {
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Data value — mono, precise */
+  .text-data {
+    @apply font-mono text-sm font-medium tracking-tight text-foreground;
+  }
+
+  /* Elevation */
+  .shadow-elevation-1 {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.07), 0 1px 2px rgba(0, 0, 0, 0.06);
+  }
+  .shadow-elevation-2 {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.08);
+  }
+
+  /* Teal live data accent */
+  .text-live {
+    @apply text-teal-600 dark:text-teal-400;
+  }
+
+  /* Orange alert accent */
+  .text-alert {
+    @apply text-orange-600 dark:text-orange-400;
+  }
+
+  /* Industrial grid for sections */
+  .section-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4;
+  }
+
+  /* Progress bar teal */
+  .progress-teal {
+    @apply bg-teal-600;
+  }
+
+  /* Font aliases */
+  .font-display {
+    font-family: var(--font-display);
+  }
+  .font-body {
+    font-family: var(--font-body);
+  }
+  .font-mono {
+    font-family: var(--font-mono);
+  }
+}

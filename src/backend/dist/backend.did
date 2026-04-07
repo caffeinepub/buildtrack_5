@@ -1,0 +1,424 @@
+type UserPublic = 
+ record {
+   createdAt: Timestamp;
+   email: text;
+   id: UserId;
+   isActive: bool;
+   name: text;
+   role: Role;
+ };
+type UserId = principal;
+type UpdateProjectPayload = 
+ record {
+   description: opt text;
+   name: opt text;
+   siteLocation: opt text;
+   status: opt ProjectStatus;
+   totalBudget: opt float64;
+ };
+type UpdateInvoiceStatusPayload = 
+ record {
+   invoiceId: InvoiceId;
+   status: InvoiceStatus;
+ };
+type UpdateBudgetPayload = 
+ record {
+   allocatedAmount: opt float64;
+   notes: opt text;
+ };
+type TransactionType = 
+ variant {
+   Inflow;
+   Outflow;
+ };
+type TransactionId = nat;
+type Timestamp = int;
+type SupplierPublic = 
+ record {
+   address: text;
+   contactPerson: text;
+   createdAt: Timestamp;
+   email: text;
+   id: SupplierId;
+   isActive: bool;
+   materialCategories: vec MaterialCategory;
+   name: text;
+   phone: text;
+   updatedAt: Timestamp;
+ };
+type SupplierId = nat;
+type SpendingReport = 
+ record {
+   materialBreakdown: vec MaterialSpending;
+   phaseBreakdown: vec PhaseSpending;
+   projectId: ProjectId;
+   projectName: text;
+   reportGeneratedAt: Timestamp;
+   totalSpent: float64;
+ };
+type Role = 
+ variant {
+   Admin;
+   FinanceProcurement;
+   ProjectManager;
+   SiteEngineer;
+ };
+type RegisterUserPayload = 
+ record {
+   email: text;
+   name: text;
+   role: Role;
+ };
+type ProjectStatus = 
+ variant {
+   Active;
+   Completed;
+   Inactive;
+ };
+type ProjectPublic = 
+ record {
+   createdAt: Timestamp;
+   createdBy: UserId;
+   description: text;
+   id: ProjectId;
+   name: text;
+   siteLocation: text;
+   status: ProjectStatus;
+   totalBudget: float64;
+   updatedAt: Timestamp;
+ };
+type ProjectId = nat;
+type PhaseStatus = 
+ variant {
+   Completed;
+   InProgress;
+   Planned;
+ };
+type PhaseSpending = 
+ record {
+   phaseId: PhaseId;
+   phaseName: text;
+   totalSpent: float64;
+ };
+type PhasePublic = 
+ record {
+   budgetAllocation: float64;
+   createdAt: Timestamp;
+   description: text;
+   endDate: opt Timestamp;
+   id: PhaseId;
+   name: text;
+   projectId: ProjectId;
+   startDate: opt Timestamp;
+   status: PhaseStatus;
+ };
+type PhaseId = nat;
+type MaterialSpending = 
+ record {
+   materialId: MaterialId;
+   materialName: text;
+   totalCost: float64;
+   totalQuantity: float64;
+ };
+type MaterialPublic = 
+ record {
+   category: MaterialCategory;
+   createdAt: Timestamp;
+   currentStock: float64;
+   id: MaterialId;
+   name: text;
+   projectId: ProjectId;
+   reorderThreshold: float64;
+   unit: text;
+   updatedAt: Timestamp;
+ };
+type MaterialId = nat;
+type MaterialCategory = 
+ variant {
+   Aggregate;
+   Bricks;
+   Cement;
+   Electrical;
+   Other;
+   Paint;
+   Plumbing;
+   Sand;
+   Steel;
+   Wood;
+ };
+type LogOutflowPayload = 
+ record {
+   materialId: MaterialId;
+   notes: opt text;
+   phaseId: opt PhaseId;
+   projectId: ProjectId;
+   qrCode: opt text;
+   quantity: float64;
+   transactionDate: Timestamp;
+   unitCost: float64;
+ };
+type LogInflowPayload = 
+ record {
+   materialId: MaterialId;
+   notes: opt text;
+   phaseId: opt PhaseId;
+   projectId: ProjectId;
+   qrCode: opt text;
+   quantity: float64;
+   supplierId: opt SupplierId;
+   transactionDate: Timestamp;
+   unitCost: float64;
+ };
+type InvoiceType = 
+ variant {
+   Manual;
+   SupplierDelivery;
+ };
+type InvoiceStatus = 
+ variant {
+   Cancelled;
+   Draft;
+   Paid;
+   Pending;
+ };
+type InvoicePublic = 
+ record {
+   createdAt: Timestamp;
+   createdBy: UserId;
+   dueDate: opt Timestamp;
+   id: InvoiceId;
+   invoiceType: InvoiceType;
+   lineItems: vec InvoiceLineItem;
+   notes: opt text;
+   paidAt: opt Timestamp;
+   projectId: ProjectId;
+   status: InvoiceStatus;
+   supplierId: opt SupplierId;
+   totalAmount: float64;
+   updatedAt: Timestamp;
+ };
+type InvoiceLineItem = 
+ record {
+   description: text;
+   materialId: opt MaterialId;
+   quantity: float64;
+   totalCost: float64;
+   unitCost: float64;
+ };
+type InvoiceId = nat;
+type InventoryTransaction = 
+ record {
+   createdAt: Timestamp;
+   id: TransactionId;
+   invoiceId: opt InvoiceId;
+   materialId: MaterialId;
+   notes: opt text;
+   phaseId: opt PhaseId;
+   projectId: ProjectId;
+   qrCode: opt text;
+   quantity: float64;
+   recordedBy: UserId;
+   supplierId: opt SupplierId;
+   totalCost: float64;
+   transactionDate: Timestamp;
+   transactionType: TransactionType;
+   unitCost: float64;
+ };
+type InventoryBalance = 
+ record {
+   category: MaterialCategory;
+   currentStock: float64;
+   isBelowThreshold: bool;
+   materialId: MaterialId;
+   materialName: text;
+   projectId: ProjectId;
+   reorderThreshold: float64;
+   unit: text;
+ };
+type DeliveryStatus = 
+ variant {
+   Cancelled;
+   Delivered;
+   InTransit;
+   Pending;
+ };
+type DeliveryPublic = 
+ record {
+   actualDate: opt Timestamp;
+   createdAt: Timestamp;
+   expectedDate: Timestamp;
+   id: nat;
+   notes: opt text;
+   projectId: ProjectId;
+   status: DeliveryStatus;
+   supplierId: SupplierId;
+   updatedAt: Timestamp;
+ };
+type CreateSupplierPayload = 
+ record {
+   address: text;
+   contactPerson: text;
+   email: text;
+   materialCategories: vec MaterialCategory;
+   name: text;
+   phone: text;
+ };
+type CreateProjectPayload = 
+ record {
+   description: text;
+   name: text;
+   siteLocation: text;
+   totalBudget: float64;
+ };
+type CreatePhasePayload = 
+ record {
+   budgetAllocation: float64;
+   description: text;
+   endDate: opt Timestamp;
+   name: text;
+   projectId: ProjectId;
+   startDate: opt Timestamp;
+ };
+type CreateMaterialPayload = 
+ record {
+   category: MaterialCategory;
+   name: text;
+   projectId: ProjectId;
+   reorderThreshold: float64;
+   unit: text;
+ };
+type CreateInvoicePayload = 
+ record {
+   dueDate: opt Timestamp;
+   lineItems: vec InvoiceLineItem;
+   notes: opt text;
+   projectId: ProjectId;
+   supplierId: opt SupplierId;
+ };
+type CreateDeliveryPayload = 
+ record {
+   expectedDate: Timestamp;
+   notes: opt text;
+   projectId: ProjectId;
+   supplierId: SupplierId;
+ };
+type CreateBudgetPayload = 
+ record {
+   allocatedAmount: float64;
+   category: BudgetCategory;
+   notes: opt text;
+   projectId: ProjectId;
+ };
+type CategoryVariance = 
+ record {
+   allocated: float64;
+   category: BudgetCategory;
+   spent: float64;
+   variance: float64;
+ };
+type BudgetVariance = 
+ record {
+   categoryBreakdown: vec CategoryVariance;
+   isOverrun: bool;
+   projectId: ProjectId;
+   projectName: text;
+   totalAllocated: float64;
+   totalSpent: float64;
+   variance: float64;
+   variancePercent: float64;
+ };
+type BudgetPublic = 
+ record {
+   allocatedAmount: float64;
+   category: BudgetCategory;
+   createdAt: Timestamp;
+   id: BudgetId;
+   notes: opt text;
+   projectId: ProjectId;
+   spentAmount: float64;
+   updatedAt: Timestamp;
+ };
+type BudgetId = nat;
+type BudgetCategory = 
+ variant {
+   Equipment;
+   Labor;
+   Materials;
+   Other;
+   Overhead;
+ };
+type AlertType = 
+ variant {
+   BudgetOverrun;
+   LowInventory;
+   PendingInvoice;
+ };
+type AlertSeverity = 
+ variant {
+   Critical;
+   Info;
+   Warning;
+ };
+type AlertPublic = 
+ record {
+   acknowledgedAt: opt Timestamp;
+   acknowledgedBy: opt UserId;
+   alertType: AlertType;
+   createdAt: Timestamp;
+   id: AlertId;
+   isAcknowledged: bool;
+   message: text;
+   projectId: ProjectId;
+   relatedEntityId: nat;
+   severity: AlertSeverity;
+ };
+type AlertId = nat;
+service : {
+  acknowledgeAlert: (alertId: AlertId) -> (AlertPublic);
+  createBudget: (payload: CreateBudgetPayload) -> (BudgetPublic);
+  createDelivery: (payload: CreateDeliveryPayload) -> (DeliveryPublic);
+  createInvoice: (payload: CreateInvoicePayload) -> (InvoicePublic);
+  createMaterial: (payload: CreateMaterialPayload) -> (MaterialPublic);
+  createPhase: (payload: CreatePhasePayload) -> (PhasePublic);
+  createProject: (payload: CreateProjectPayload) -> (ProjectPublic);
+  createSupplier: (payload: CreateSupplierPayload) -> (SupplierPublic);
+  getBudgetVariance: (projectId: ProjectId) -> (BudgetVariance) query;
+  getBudgetsByProject: (projectId: ProjectId) -> (vec BudgetPublic) query;
+  getInventoryBalance: (projectId: ProjectId) -> (vec InventoryBalance) query;
+  getInvoice: (invoiceId: InvoiceId) -> (opt InvoicePublic) query;
+  getMaterialByQrCode: (qrCode: text) -> (opt InventoryTransaction) query;
+  getMyProfile: () -> (opt UserPublic) query;
+  getPendingInvoices: (projectId: opt ProjectId) -> (vec InvoicePublic) query;
+  getProject: (projectId: ProjectId) -> (opt ProjectPublic) query;
+  getSpendingReport: (projectId: ProjectId) -> (SpendingReport) query;
+  getSupplier: (supplierId: SupplierId) -> (opt SupplierPublic) query;
+  isUserRegistered: () -> (bool) query;
+  listAlerts: (projectId: opt ProjectId, onlyUnacknowledged: bool) ->
+   (vec AlertPublic) query;
+  listDeliveries: (supplierId: opt SupplierId, projectId: opt ProjectId,
+   status: opt DeliveryStatus) -> (vec DeliveryPublic) query;
+  listInventoryTransactions: (projectId: opt ProjectId, materialId:
+   opt MaterialId, txType: opt TransactionType) ->
+   (vec InventoryTransaction) query;
+  listInvoices: (projectId: opt ProjectId, supplierId: opt SupplierId,
+   status: opt InvoiceStatus) -> (vec InvoicePublic) query;
+  listMaterials: (projectId: opt ProjectId) -> (vec MaterialPublic) query;
+  listPhasesByProject: (projectId: ProjectId) -> (vec PhasePublic) query;
+  listProjects: (statusFilter: opt ProjectStatus) ->
+   (vec ProjectPublic) query;
+  listSuppliers: () -> (vec SupplierPublic) query;
+  listUsers: () -> (vec UserPublic) query;
+  logMaterialInflow: (payload: LogInflowPayload) -> (InventoryTransaction);
+  logMaterialOutflow: (payload: LogOutflowPayload) -> (InventoryTransaction);
+  registerUser: (payload: RegisterUserPayload) -> (UserPublic);
+  runAlertChecks: () -> (nat);
+  updateBudget: (budgetId: BudgetId, payload: UpdateBudgetPayload) ->
+   (BudgetPublic);
+  updateDeliveryStatus: (deliveryId: nat, status: DeliveryStatus, actualDate:
+   opt Timestamp) -> (DeliveryPublic);
+  updateInvoiceStatus: (payload: UpdateInvoiceStatusPayload) ->
+   (InvoicePublic);
+  updateProject: (projectId: ProjectId, payload: UpdateProjectPayload) ->
+   (ProjectPublic);
+  updateUserRole: (targetId: UserId, role: Role) -> (UserPublic);
+}
